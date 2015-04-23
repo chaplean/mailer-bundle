@@ -1,0 +1,3 @@
+services:
+#    chaplean.message:
+#        class: Chaplean\Bundle\MailerBundle\lib\classes\Chaplean\Message
