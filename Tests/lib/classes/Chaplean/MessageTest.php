@@ -10,7 +10,7 @@
 namespace Chaplean\Bundle\MailerBundle\Tests\lib\classes\Chaplean;
 
 use Chaplean\Bundle\MailerBundle\lib\classes\Chaplean\Message;
-use Chaplean\Bundle\UnitBundle\Tests\LogicalTest;
+use Chaplean\Bundle\UnitBundle\Test\LogicalTest;
 
 class MessageTest extends LogicalTest
 {
