@@ -22,13 +22,16 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+            ->scalarNode('bcc_address')->end()
+            ->scalarNode('sender_address')->isRequired()->end()
+            ->scalarNode('sender_name')->isRequired()->end()
             ->arrayNode('subject')
-            ->addDefaultsIfNotSet()
-            ->children()
-            ->scalarNode('prefix')->defaultValue('')->end()
-            ->end()
-            ->end()
-            ->booleanNode('test')->defaultTrue()->end()
+                ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('prefix')->defaultValue('')->end()
+                    ->end()
+                ->end()
+                ->booleanNode('test')->defaultTrue()->end()
             ->end()
         ;
 

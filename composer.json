@@ -1,7 +1,6 @@
 {
     "name": "chaplean/mailer-bundle",
     "description": "Contains utilities for mailer",
-    "keywords": ["symfony2"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -10,6 +9,13 @@
             "homepage": "http://chaplean.com/"
         }
     ],
+    "autoload": {
+        "psr-0": {
+            "Chaplean\\Bundle\\MailerBundle": "",
+            "SymfonyStandard": "app/"
+        }
+    },
+    "target-dir" : "Chaplean/Bundle/MailerBundle",
     "repositories": [
       {
         "type": "composer",
@@ -18,15 +24,52 @@
     ],
     "require": {
         "php": ">=5.5.9",
-        "symfony/framework-bundle": "~2.7"
+        "symfony/symfony": "2.8.*",
+        "doctrine/orm": "^2.4.8",
+        "doctrine/doctrine-bundle": "~1.4",
+        "symfony/assetic-bundle": "~2.3",
+        "symfony/swiftmailer-bundle": "~2.3",
+        "symfony/monolog-bundle": "~2.4",
+        "sensio/distribution-bundle": "~4.0",
+        "sensio/framework-extra-bundle": "^3.0.2",
+        "incenteev/composer-parameter-handler": "~2.0"
     },
     "require-dev": {
-        "chaplean/unit-bundle": "^1.6.0"
+        "sensio/generator-bundle": "~2.3",
+        "chaplean/unit-bundle": "^2.0",
+        "chaplean/coding-standard": "1.1.*"
     },
-    "autoload": {
-        "psr-0": {
-            "Chaplean\\Bundle\\MailerBundle": ""
+    "scripts": {
+        "post-root-package-install": [
+            "SymfonyStandard\\Composer::hookRootPackageInstall"
+        ],
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin",
+        "discard-changes": true
+    },
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-bin-dir": "bin",
+        "symfony-var-dir": "var",
+        "symfony-web-dir": "web",
+        "symfony-assets-install": "symlink",
+        "incenteev-parameters": {
+            "file": "app/config/parameters.yml",
+            "keep-outdated": true
+        },
+        "branch-alias": {
+            "dev-master": "2.7-dev"
         }
-    },
-    "target-dir" : "Chaplean/Bundle/MailerBundle"
+    }
 }

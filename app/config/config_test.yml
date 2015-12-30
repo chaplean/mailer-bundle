@@ -1,0 +1,14 @@
+imports:
+    - { resource: config.yml }
+
+swiftmailer:
+    spool:
+        type: file
+
+chaplean_mailer:
+    bcc_address: 'staff@chaplean.com'
+    sender_address: 'staff@chaplean.com'
+    sender_name: 'Chaplean Staff'
+    subject:
+        prefix: '[TEST]'
+    test: true

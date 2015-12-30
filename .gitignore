@@ -1,3 +1,15 @@
-vendor
 .idea
-phpunit.xml
+/web/bundles/
+web/medias
+/app/config/parameters.yml
+/var
+/build/
+/vendor
+/bin/*
+!bin/console
+!bin/firefox.sh
+/phpunit.xml
+behat.yml
+*.php~
+!.gitkeep
+!var/.gitkeep
