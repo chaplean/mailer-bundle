@@ -1,0 +1,91 @@
+imports:
+    - { resource: parameters.yml }
+
+framework:
+    translator:      { fallback: "%locale%" }
+    secret:          "S€cR3t"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: true
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+    profiler: { only_exceptions: false }
+
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Assetic Configuration
+assetic:
+    debug:          "%use_assetic_debug%"
+    use_controller: "%use_assetic_controller%"
+    bundles:        ['ChapleanMailerBundle']
+    ruby: %ruby.bin%
+    filters:
+        cssrewrite: ~
+        sass:
+            bin: %sass.bin%
+            apply_to: "\.scss"
+        compass:
+            bin: %compass.bin%
+            no_line_comments: true
+
+monolog:
+    handlers:
+        main:
+            type:   stream
+            path:   "%kernel.logs_dir%/%kernel.environment%.log"
+            level:  info
+        console:
+            type:   console
+            bubble: false
+
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   pdo_mysql
+        host:     127.0.0.1
+        port:     3306
+        dbname:   test_database
+        user:     root
+        password: %database_password%
+        charset:  UTF8
+        server_version: 5.5
+        mapping_types:
+            enum: string
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+# Chapleanmailer Configuration
+chaplean_mailer:
+    bcc_address: ''
+    sender_address: ''
+    sender_name: ''
+    subject:
+        prefix: ''
+    test: false
