@@ -21,7 +21,6 @@ class MessageTest extends LogicalTest
         $message = new Message($chapleaConfig);
 
         $result = $this->getContainer()->get('swiftmailer.mailer.default')->send($message);
-
         $this->assertEquals(1, $result);
     }
 }
