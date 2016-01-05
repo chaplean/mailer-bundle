@@ -1,10 +1,5 @@
 <?php
 
-namespace {
-    error_reporting(error_reporting() & ~E_USER_DEPRECATED);
-    $loader = require_once __DIR__.'/../app/autoload.php';
-}
-
  
 namespace Symfony\Component\HttpFoundation
 {
@@ -2611,11 +2606,11 @@ return $this->debug ? $this->startTime : -INF;
 }
 public function getCacheDir()
 {
-return $this->rootDir.'/../var/cache/'.$this->environment;
+return $this->rootDir.'/cache/'.$this->environment;
 }
 public function getLogDir()
 {
-return $this->rootDir.'/../var/logs';
+return $this->rootDir.'/logs';
 }
 public function getCharset()
 {
@@ -3314,5 +3309,3 @@ return $response;
 }
 }
 }
-
-namespace { return $loader; }

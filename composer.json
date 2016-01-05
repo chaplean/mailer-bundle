@@ -10,12 +10,11 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "Chaplean\\Bundle\\MailerBundle": "",
-            "SymfonyStandard": "app/"
-        }
+        "psr-4": {
+            "Chaplean\\Bundle\\MailerBundle\\": ""
+        },
+        "classmap": [ "app/AppKernel.php"]
     },
-    "target-dir" : "Chaplean/Bundle/MailerBundle",
     "repositories": [
       {
         "type": "composer",
@@ -35,7 +34,7 @@
         "incenteev/composer-parameter-handler": "~2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3",
+        "sensio/generator-bundle": "~3.0",
         "chaplean/unit-bundle": "^2.0",
         "chaplean/coding-standard": "1.1.*"
     },
@@ -71,7 +70,7 @@
             "keep-outdated": true
         },
         "branch-alias": {
-            "dev-master": "2.7-dev"
+            "dev-master": "2.8-dev"
         }
     }
 }
