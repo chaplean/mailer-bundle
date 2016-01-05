@@ -26,7 +26,9 @@ class Message extends \Swift_Message
         parent::__construct();
 
         $this->setFrom($chapleanMailerConfig['sender_address'], $chapleanMailerConfig['sender_name']);
-        $this->setBcc($chapleanMailerConfig['bcc_address']);
+        if (isset($chapleanMailerConfig['bcc_address'])) {
+            $this->setBcc($chapleanMailerConfig['bcc_address']);
+        }
 
         $this->chapleanMailerConfig = $chapleanMailerConfig;
     }
