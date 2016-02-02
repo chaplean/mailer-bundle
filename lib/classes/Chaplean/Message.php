@@ -52,6 +52,25 @@ class Message extends \Swift_Message
         return $this;
     }
 
+
+    /**
+     * Add a To: address to this message.
+     *
+     * If $name is passed this name will be associated with the address.
+     *
+     * @param string $address
+     * @param string $name    optional
+     *
+     * @return Swift_Mime_SimpleMessage
+     */
+    public function addTo($address, $name = null)
+    {
+        $current = $this->getTo();
+        $current[$address] = $name;
+
+        return $this->setTo($this->transformMail($current));
+    }
+
     /**
      * Set the to addresses of this message.
      *
@@ -72,6 +91,112 @@ class Message extends \Swift_Message
             $addresses = array($addresses => $name);
         }
 
+        $addresses = $this->transformMail($addresses);
+
+        if (!$this->_setHeaderFieldModel('To', (array) $addresses)) {
+            $this->getHeaders()->addMailboxHeader('To', (array) $addresses);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a Cc: address to this message.
+     *
+     * If $name is passed this name will be associated with the address.
+     *
+     * @param string $address
+     * @param string $name    optional
+     *
+     * @return Swift_Mime_SimpleMessage
+     */
+    public function addCc($address, $name = null)
+    {
+        $current = $this->getCc();
+        $current[$address] = $name;
+
+        return $this->setCc($this->transformMail($current));
+    }
+
+    /**
+     * Set the Cc addresses of this message.
+     *
+     * If $name is passed and the first parameter is a string, this name will be
+     * associated with the address.
+     *
+     * @param mixed  $addresses
+     * @param string $name      optional
+     *
+     * @return Swift_Mime_SimpleMessage
+     */
+    public function setCc($addresses, $name = null)
+    {
+        if (!is_array($addresses) && isset($name)) {
+            $addresses = array($addresses => $name);
+        }
+
+        $addresses = $this->transformMail($addresses);
+
+        if (!$this->_setHeaderFieldModel('Cc', (array) $addresses)) {
+            $this->getHeaders()->addMailboxHeader('Cc', (array) $addresses);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add a Bcc: address to this message.
+     *
+     * If $name is passed this name will be associated with the address.
+     *
+     * @param string $address
+     * @param string $name    optional
+     *
+     * @return Swift_Mime_SimpleMessage
+     */
+    public function addBcc($address, $name = null)
+    {
+        $current = $this->getBcc();
+        $current[$address] = $name;
+
+        return $this->setBcc($this->transformMail($current));
+    }
+
+    /**
+     * Set the Bcc addresses of this message.
+     *
+     * If $name is passed and the first parameter is a string, this name will be
+     * associated with the address.
+     *
+     * @param mixed  $addresses
+     * @param string $name      optional
+     *
+     * @return Swift_Mime_SimpleMessage
+     */
+    public function setBcc($addresses, $name = null)
+    {
+        if (!is_array($addresses) && isset($name)) {
+            $addresses = array($addresses => $name);
+        }
+
+        $addresses = $this->transformMail($addresses);
+
+        if (!$this->_setHeaderFieldModel('Bcc', (array) $addresses)) {
+            $this->getHeaders()->addMailboxHeader('Bcc', (array) $addresses);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Yopmailization of mail addresses when in dev env
+     *
+     * @param array $addresses addresses to transform
+     *
+     * @return array Addresses transformed if necessary
+     */
+    private function transformMail($addresses)
+    {
         $test = $this->chapleanMailerConfig['test'];
 
         if ($test) {
@@ -81,8 +206,10 @@ class Message extends \Swift_Message
                 foreach ($addresses as $recipient => $recipientName) {
                     if (is_string($recipient)) {
                         $newRecipient = str_replace(array('.', '@'), '_', $recipient) . '@yopmail.com';
-                        $finalAddresses[$newRecipient] = $newRecipient;
+                    } else {
+                        $newRecipient = str_replace(array('.', '@'), '_', $recipientName) . '@yopmail.com';
                     }
+                    $finalAddresses[$newRecipient] = $recipientName;
                 }
 
                 $addresses = $finalAddresses;
@@ -91,10 +218,6 @@ class Message extends \Swift_Message
             }
         }
 
-        if (!$this->_setHeaderFieldModel('To', (array) $addresses)) {
-            $this->getHeaders()->addMailboxHeader('To', (array) $addresses);
-        }
-
-        return $this;
+        return $addresses;
     }
 }
