@@ -1,15 +1,39 @@
-.idea
-/web/bundles/
-web/medias
+# Cache and logs (Symfony3 directory structure)
+/var/*
+!var/.gitkeep
+
+# Parameters
 /app/config/parameters.yml
-/var
-/build/
-/vendor
+
+# Managed by Composer
 /bin/*
 !bin/console
-!bin/firefox.sh
+/vendor/
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
+
+# PHPUnit
 /phpunit.xml
-behat.yml
-*.php~
-!.gitkeep
-!var/.gitkeep
+
+# Auto-saved files
+*~
+
+# Mac
+.DS_store
+
+# PhpStorm
+.idea
+
+# Compass
+.sass-cache/
+
+# Composer
+/composer.phar
+
+# Build data
+/build/
+
+# Karma coverage
+coverage/
