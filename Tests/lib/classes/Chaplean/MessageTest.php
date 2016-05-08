@@ -15,6 +15,17 @@ use Chaplean\Bundle\UnitBundle\Test\LogicalTest;
  */
 class MessageTest extends LogicalTest
 {
+    /**
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        // No Datafixtures
+    }
+
+    /**
+     * @return void
+     */
     public function testCreateMailer()
     {
         $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');

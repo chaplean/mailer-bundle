@@ -7,10 +7,10 @@
  * @since     2.0.0
  */
 
-$loader = require __DIR__  . '/../vendor/autoload.php';
+$loader = require __DIR__ . '/../vendor/autoload.php';
 
 //if (class_exists('\Doctrine\Common\Annotations\AnnotationRegistry')) {
-    \Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 //}
 
 return $loader;
