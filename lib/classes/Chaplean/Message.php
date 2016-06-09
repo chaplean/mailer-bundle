@@ -12,6 +12,11 @@ namespace Chaplean\Bundle\MailerBundle\lib\classes\Chaplean;
 class Message extends \Swift_Message
 {
     /**
+     * @var float
+     */
+    private $time;
+
+    /**
      * @var
      */
     protected $chapleanMailerConfig;
@@ -31,6 +36,7 @@ class Message extends \Swift_Message
         }
 
         $this->chapleanMailerConfig = $chapleanMailerConfig;
+        $this->time = microtime(true);
     }
 
     /**
@@ -219,5 +225,13 @@ class Message extends \Swift_Message
         }
 
         return $addresses;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTime()
+    {
+        return $this->getTime() * 10000;
     }
 }
