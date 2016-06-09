@@ -232,6 +232,6 @@ class Message extends \Swift_Message
      */
     public function getTime()
     {
-        return $this->getTime() * 10000;
+        return $this->time * 10000;
     }
 }

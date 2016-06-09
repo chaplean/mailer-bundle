@@ -34,4 +34,15 @@ class MessageTest extends LogicalTest
         $result = $this->getContainer()->get('swiftmailer.mailer.default')->send($message);
         $this->assertEquals(1, $result);
     }
+
+    /**
+     * @return void
+     */
+    public function testGetTime()
+    {
+        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleaConfig);
+
+        $this->assertInternalType('float', $message->getTime());
+    }
 }
