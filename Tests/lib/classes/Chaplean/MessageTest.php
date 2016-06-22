@@ -32,7 +32,7 @@ class MessageTest extends LogicalTest
         $message = new Message($chapleaConfig);
 
         $result = $this->getContainer()->get('swiftmailer.mailer.default')->send($message);
-        $this->assertEquals(1, $result);
+        static::assertEquals(1, $result);
     }
 
     /**
@@ -110,7 +110,7 @@ class MessageTest extends LogicalTest
         $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleaConfig);
 
-        $this->assertInternalType('float', $message->getTime());
+        static::assertInternalType('float', $message->getTime());
     }
 
     /**
@@ -222,7 +222,7 @@ class MessageTest extends LogicalTest
         static::assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'address@example.com',
-                'staff_chaplean_com@yopmail.com' => 'staff@chaplean.com'
+                'staff@chaplean.com' => 'staff@chaplean.com'
             ), $message->getBcc()
         );
     }
@@ -239,7 +239,7 @@ class MessageTest extends LogicalTest
         static::assertEquals(
             array(
                 'address_example_com@yopmail.com' => null,
-                'staff_chaplean_com@yopmail.com' => 'staff@chaplean.com'
+                'staff@chaplean.com' => 'staff@chaplean.com'
             ), $message->getBcc()
         );
     }
@@ -256,7 +256,7 @@ class MessageTest extends LogicalTest
         static::assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'my test address',
-                'staff_chaplean_com@yopmail.com' => 'staff@chaplean.com'
+                'staff@chaplean.com' => 'staff@chaplean.com'
             ), $message->getBcc()
         );
     }
