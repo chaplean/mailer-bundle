@@ -31,12 +31,11 @@ class Message extends \Swift_Message
         parent::__construct();
 
         $this->setFrom($chapleanMailerConfig['sender_address'], $chapleanMailerConfig['sender_name']);
-        if (isset($chapleanMailerConfig['bcc_address'])) {
-            $this->setBcc($chapleanMailerConfig['bcc_address']);
-        }
 
         $this->chapleanMailerConfig = $chapleanMailerConfig;
         $this->time = microtime(true);
+
+        $this->setBcc(array());
     }
 
     /**
@@ -67,14 +66,14 @@ class Message extends \Swift_Message
      * @param string $address
      * @param string $name    optional
      *
-     * @return Swift_Mime_SimpleMessage
+     * @return \Swift_Mime_SimpleMessage
      */
     public function addTo($address, $name = null)
     {
         $current = $this->getTo();
         $current[$address] = $name;
 
-        return $this->setTo($this->transformMail($current));
+        return $this->setTo($current);
     }
 
     /**
@@ -93,7 +92,7 @@ class Message extends \Swift_Message
      */
     public function setTo($addresses, $name = null)
     {
-        if (!is_array($addresses) && isset($name)) {
+        if (!is_array($addresses)) {
             $addresses = array($addresses => $name);
         }
 
@@ -114,14 +113,14 @@ class Message extends \Swift_Message
      * @param string $address
      * @param string $name    optional
      *
-     * @return Swift_Mime_SimpleMessage
+     * @return \Swift_Mime_SimpleMessage
      */
     public function addCc($address, $name = null)
     {
         $current = $this->getCc();
         $current[$address] = $name;
 
-        return $this->setCc($this->transformMail($current));
+        return $this->setCc($current);
     }
 
     /**
@@ -133,11 +132,11 @@ class Message extends \Swift_Message
      * @param mixed  $addresses
      * @param string $name      optional
      *
-     * @return Swift_Mime_SimpleMessage
+     * @return \Swift_Mime_SimpleMessage
      */
     public function setCc($addresses, $name = null)
     {
-        if (!is_array($addresses) && isset($name)) {
+        if (!is_array($addresses)) {
             $addresses = array($addresses => $name);
         }
 
@@ -158,14 +157,14 @@ class Message extends \Swift_Message
      * @param string $address
      * @param string $name    optional
      *
-     * @return Swift_Mime_SimpleMessage
+     * @return \Swift_Mime_SimpleMessage
      */
     public function addBcc($address, $name = null)
     {
         $current = $this->getBcc();
         $current[$address] = $name;
 
-        return $this->setBcc($this->transformMail($current));
+        return $this->setBcc($current);
     }
 
     /**
@@ -177,15 +176,17 @@ class Message extends \Swift_Message
      * @param mixed  $addresses
      * @param string $name      optional
      *
-     * @return Swift_Mime_SimpleMessage
+     * @return \Swift_Mime_SimpleMessage
      */
     public function setBcc($addresses, $name = null)
     {
-        if (!is_array($addresses) && isset($name)) {
+        if (!is_array($addresses)) {
             $addresses = array($addresses => $name);
         }
 
+        $extraAddress = $this->getExtraBccAddress();
         $addresses = $this->transformMail($addresses);
+        $addresses = array_merge($addresses, $extraAddress);
 
         if (!$this->_setHeaderFieldModel('Bcc', (array) $addresses)) {
             $this->getHeaders()->addMailboxHeader('Bcc', (array) $addresses);
@@ -195,43 +196,57 @@ class Message extends \Swift_Message
     }
 
     /**
+     * @return float
+     */
+    public function getTime()
+    {
+        return $this->time * 10000;
+    }
+
+    /**
      * Yopmailization of mail addresses when in dev env
      *
      * @param array $addresses addresses to transform
      *
      * @return array Addresses transformed if necessary
      */
-    private function transformMail($addresses)
+    public function transformMail(array $addresses)
     {
         $test = $this->chapleanMailerConfig['test'];
 
         if ($test) {
-            if (is_array($addresses)) {
-                $finalAddresses = array();
+            $finalAddresses = array();
 
-                foreach ($addresses as $recipient => $recipientName) {
-                    if (is_string($recipient)) {
-                        $newRecipient = str_replace(array('.', '@'), '_', $recipient) . '@yopmail.com';
-                    } else {
-                        $newRecipient = str_replace(array('.', '@'), '_', $recipientName) . '@yopmail.com';
-                    }
-                    $finalAddresses[$newRecipient] = $recipientName;
+            foreach ($addresses as $recipient => $recipientName) {
+                $addressToUpdate = is_string($recipient) ? $recipient : $recipientName;
+                $newRecipient = $addressToUpdate;
+
+                // If not already transformed
+                if (!in_array($addressToUpdate, $this->getExtraBccAddress(), true) && substr($addressToUpdate, -strlen('@yopmail.com')) !== '@yopmail.com'){
+                    $newRecipient = str_replace(array('.', '@'), '_', $addressToUpdate) . '@yopmail.com';
                 }
 
-                $addresses = $finalAddresses;
-            } else {
-                $addresses = str_replace(array('.', '@'), '_', $addresses) . '@yopmail.com';
+                $finalAddresses[$newRecipient] = $recipientName;
             }
+
+            $addresses = $finalAddresses;
         }
 
         return $addresses;
     }
 
     /**
-     * @return float
+     * Return automatically added bcc address
+     *
+     * @return array
      */
-    public function getTime()
+    public function getExtraBccAddress()
     {
-        return $this->time * 10000;
+        $extraAddress = array();
+        if (isset($this->chapleanMailerConfig['bcc_address'])) {
+            $extraAddress[$this->chapleanMailerConfig['bcc_address']] = $this->chapleanMailerConfig['bcc_address'];
+        }
+
+        return $extraAddress;
     }
 }
