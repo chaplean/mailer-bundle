@@ -1,7 +1,7 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: mysql
+    database_host: mailer_mysql
     database_port: 3306
     database_name: test_database
     database_user: root
