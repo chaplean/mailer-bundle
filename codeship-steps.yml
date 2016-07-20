@@ -10,4 +10,4 @@
   - command: php vendor/bin/coveralls
   - command: bash -c "ssh chaplean@satis.chaplean.com && cd /home/www/chaplean.com/satis && \
              bin/satis build satis.json web chaplean/mailer-bundle"
-    tag: master
+#    tag: master
