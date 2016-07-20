@@ -1,4 +1,0 @@
-chaplean_mailer:
-    resource: '@ChapleanMailerBundle/Resources/config/routing.yml'
-    prefix:   /
-
