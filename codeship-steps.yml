@@ -5,9 +5,10 @@
   steps:
   - command: composer install --prefer-dist --no-interaction
   - command: cp ./app/config/parameters.yml.dist ./app/config/parameters.yml
+  - command: cp ./phpunit.xml.dist ./phpunit-default.xml
   - command: chmod -R +x ./bin/
   - command: ./bin/phpunit.sh default mysql
-  - command: php vendor/bin/coveralls
+  - command: php bin/coveralls
   - command: bash -c "ssh chaplean@satis.chaplean.com && cd /home/www/chaplean.com/satis && \
              bin/satis build satis.json web chaplean/mailer-bundle"
 #    tag: master
