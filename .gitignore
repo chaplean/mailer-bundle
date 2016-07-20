@@ -18,6 +18,7 @@
 
 # PHPUnit
 /phpunit.xml
+/phpunit-*.xml
 
 # Auto-saved files
 *~
