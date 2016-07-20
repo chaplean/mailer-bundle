@@ -1,0 +1,6 @@
+application:
+    build: .
+    expose:
+        - "9000"
+    volumes:
+        - .:/var/www/symfony

@@ -3,7 +3,7 @@
 namespace Chaplean\Bundle\MailerBundle\Tests\lib\classes\Chaplean;
 
 use Chaplean\Bundle\MailerBundle\lib\classes\Chaplean\Message;
-use Chaplean\Bundle\UnitBundle\Test\LogicalTest;
+use Chaplean\Bundle\UnitBundle\Test\LogicalTestCase;
 
 /**
  * Class MessageTest.
@@ -13,14 +13,16 @@ use Chaplean\Bundle\UnitBundle\Test\LogicalTest;
  * @copyright 2014 - 2015 Chaplean (http://www.chaplean.com)
  * @since     1.0.0
  */
-class MessageTest extends LogicalTest
+class MessageTest extends LogicalTestCase
 {
     /**
+     * Load empty data fixture to generate the database schema even if no data are given
+     * TODO: remove this function (used cause of a bug in Unit when a project has no datafixtures)
+     *
      * @return void
      */
     public static function setUpBeforeClass()
     {
-        // No Datafixtures
     }
 
     /**
@@ -28,8 +30,8 @@ class MessageTest extends LogicalTest
      */
     public function testCreateMailer()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $result = $this->getContainer()->get('swiftmailer.mailer.default')->send($message);
         static::assertEquals(1, $result);
@@ -40,8 +42,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetSubjectAddsConfiguredPrefix()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         $message->setSubject('My subject');
 
         static::assertEquals('[TEST]My subject', $message->getSubject());
@@ -52,8 +54,8 @@ class MessageTest extends LogicalTest
      */
     public function testKeepPreviousAddressesOnAddTo()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         $message->addTo('test1@test.com');
         static::assertCount(1, $message->getTo());
 
@@ -66,8 +68,8 @@ class MessageTest extends LogicalTest
      */
     public function testKeepPreviousAddressesOnAddCc()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         $message->addCc('test1@test.com');
         static::assertCount(1, $message->getCc());
 
@@ -80,8 +82,8 @@ class MessageTest extends LogicalTest
      */
     public function testKeepPreviousAddressesOnAddBcc()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         $message->addBcc('test1@test.com');
         static::assertCount(2, $message->getBcc());
 
@@ -94,8 +96,8 @@ class MessageTest extends LogicalTest
      */
     public function testKeepAutomaticConfiguredBccEvenOnSetBcc()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         static::assertCount(1, $message->getBcc());
 
         $message->setBcc('test2@test.com');
@@ -107,8 +109,8 @@ class MessageTest extends LogicalTest
      */
     public function testGetTime()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         static::assertInternalType('float', $message->getTime());
     }
@@ -118,8 +120,8 @@ class MessageTest extends LogicalTest
      */
     public function testTransformMail()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
         $addresses = array(
             'already_transformed@yopmail.com' => null,
             'to_transform@example.com' => null,
@@ -143,8 +145,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetToHandlesArray()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setTo(array('address@example.com'));
         static::assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getTo());
@@ -155,8 +157,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetToHandlesSingleAddress()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setTo('address@example.com');
         static::assertEquals(array('address_example_com@yopmail.com' => null), $message->getTo());
@@ -167,8 +169,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetToHandlesSingleAddressWithName()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setTo('address@example.com', 'my test address');
         static::assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getTo());
@@ -179,8 +181,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetCcHandlesArray()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setCc(array('address@example.com'));
         static::assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getCc());
@@ -191,8 +193,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetCcHandlesSingleAddress()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setCc('address@example.com');
         static::assertEquals(array('address_example_com@yopmail.com' => null), $message->getCc());
@@ -203,8 +205,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetCcHandlesSingleAddressWithName()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setCc('address@example.com', 'my test address');
         static::assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getCc());
@@ -215,8 +217,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetBccHandlesArray()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setBcc(array('address@example.com'));
         static::assertEquals(
@@ -232,8 +234,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetBccHandlesSingleAddress()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setBcc('address@example.com');
         static::assertEquals(
@@ -249,8 +251,8 @@ class MessageTest extends LogicalTest
      */
     public function testSetBccHandlesSingleAddressWithName()
     {
-        $chapleaConfig = $this->getContainer()->getParameter('chaplean_mailer');
-        $message = new Message($chapleaConfig);
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $message = new Message($chapleanConfig);
 
         $message->setBcc('address@example.com', 'my test address');
         static::assertEquals(

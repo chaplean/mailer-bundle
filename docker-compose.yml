@@ -1,0 +1,11 @@
+version: '2'
+services:
+    application:
+        container_name: mailer_application
+        build: .
+        expose:
+            - "9000"
+        volumes:
+            - .:/var/www/symfony
+networks: {}
+volumes: {}
