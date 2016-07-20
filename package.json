@@ -1,0 +1,15 @@
+{
+    "name": "chaplean/mailer-bundle",
+    "version": "1.0.0",
+    "description": "Mailer Bundle",
+    "main": "",
+    "author": "Chaplean",
+    "license": "MIT",
+    "devDependencies": {
+        "karma": "~0.13.15",
+        "jasmine-core": "~2.4.1",
+        "karma-jasmine": "~0.3.6",
+        "karma-chrome-launcher": "~0.2.2",
+        "karma-coverage": "~0.5.3"
+    }
+}
