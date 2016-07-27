@@ -3,7 +3,7 @@ Getting Started With Chaplean Mailer Bundle
 
 # Prerequisites
 
-Symfony 2.8+
+This version of the bundle requires Symfony 2.8+.
 
 # Installation
 
@@ -17,6 +17,7 @@ composer require chaplean/mailer-bundle
 
 Add
 ```
+            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Chaplean\Bundle\MailerBundle\ChapleanMailerBundle(),
 ```
 
