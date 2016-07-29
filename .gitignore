@@ -6,7 +6,7 @@
 /app/config/parameters.yml
 
 # Managed by Composer
-#/bin/*
+/bin/*
 !bin/console
 /vendor/
 
