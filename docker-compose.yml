@@ -13,12 +13,14 @@ services:
         container_name: mailer_bundle_mysql
         image: chaplean/mysql
         volumes:
-            - ./.db:/var/lib/mysql:rw
+            - mysql_data:/var/lib/mysql
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: app_user
             MYSQL_PASSWORD: app_password
             MYSQL_DATABASE: test_database
+
 networks: {}
-volumes: {}
+volumes:
+    mysql_data: ~

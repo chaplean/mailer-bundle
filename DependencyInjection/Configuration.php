@@ -31,7 +31,13 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('prefix')->defaultValue('')->end()
                     ->end()
                 ->end()
-                ->booleanNode('test')->defaultTrue()->end()
+            ->booleanNode('test')->defaultTrue()->end()
+            ->arrayNode('amazon_tags')
+                ->children()
+                    ->scalarNode('configuration_set')->isRequired()->end()
+                    ->scalarNode('project_name')->isRequired()->end()
+                    ->scalarNode('env')->isRequired()->end()
+                ->end()
             ->end()
         ;
 
