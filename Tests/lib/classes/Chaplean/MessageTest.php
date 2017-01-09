@@ -34,7 +34,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $result = $this->getContainer()->get('swiftmailer.mailer.default')->send($message);
-        static::assertEquals(1, $result);
+        $this->assertEquals(1, $result);
     }
 
     /**
@@ -46,7 +46,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
         $message->setSubject('My subject');
 
-        static::assertEquals('[TEST]My subject', $message->getSubject());
+        $this->assertEquals('[TEST]My subject', $message->getSubject());
     }
 
     /**
@@ -57,10 +57,10 @@ class MessageTest extends LogicalTestCase
         $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleanConfig);
         $message->addTo('test1@test.com');
-        static::assertCount(1, $message->getTo());
+        $this->assertCount(1, $message->getTo());
 
         $message->addTo('test2@test.com');
-        static::assertCount(2, $message->getTo());
+        $this->assertCount(2, $message->getTo());
     }
 
     /**
@@ -71,10 +71,10 @@ class MessageTest extends LogicalTestCase
         $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleanConfig);
         $message->addCc('test1@test.com');
-        static::assertCount(1, $message->getCc());
+        $this->assertCount(1, $message->getCc());
 
         $message->addCc('test2@test.com');
-        static::assertCount(2, $message->getCc());
+        $this->assertCount(2, $message->getCc());
     }
 
     /**
@@ -85,10 +85,10 @@ class MessageTest extends LogicalTestCase
         $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleanConfig);
         $message->addBcc('test1@test.com');
-        static::assertCount(2, $message->getBcc());
+        $this->assertCount(2, $message->getBcc());
 
         $message->addBcc('test2@test.com');
-        static::assertCount(3, $message->getBcc());
+        $this->assertCount(3, $message->getBcc());
     }
 
     /**
@@ -98,10 +98,10 @@ class MessageTest extends LogicalTestCase
     {
         $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleanConfig);
-        static::assertCount(1, $message->getBcc());
+        $this->assertCount(1, $message->getBcc());
 
         $message->setBcc('test2@test.com');
-        static::assertCount(2, $message->getBcc());
+        $this->assertCount(2, $message->getBcc());
     }
 
     /**
@@ -112,7 +112,7 @@ class MessageTest extends LogicalTestCase
         $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
         $message = new Message($chapleanConfig);
 
-        static::assertInternalType('float', $message->getTime());
+        $this->assertInternalType('float', $message->getTime());
     }
 
     /**
@@ -129,7 +129,7 @@ class MessageTest extends LogicalTestCase
             'named_to_transform@example.com' => 'named address',
         );
 
-        static::assertEquals(
+        $this->assertEquals(
             array(
                 'already_transformed@yopmail.com' => null,
                 'to_transform_example_com@yopmail.com' => null,
@@ -149,7 +149,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setTo(array('address@example.com'));
-        static::assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getTo());
+        $this->assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getTo());
     }
 
     /**
@@ -161,7 +161,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setTo('address@example.com');
-        static::assertEquals(array('address_example_com@yopmail.com' => null), $message->getTo());
+        $this->assertEquals(array('address_example_com@yopmail.com' => null), $message->getTo());
     }
 
     /**
@@ -173,7 +173,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setTo('address@example.com', 'my test address');
-        static::assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getTo());
+        $this->assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getTo());
     }
 
     /**
@@ -185,7 +185,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setCc(array('address@example.com'));
-        static::assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getCc());
+        $this->assertEquals(array('address_example_com@yopmail.com' => 'address@example.com'), $message->getCc());
     }
 
     /**
@@ -197,7 +197,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setCc('address@example.com');
-        static::assertEquals(array('address_example_com@yopmail.com' => null), $message->getCc());
+        $this->assertEquals(array('address_example_com@yopmail.com' => null), $message->getCc());
     }
 
     /**
@@ -209,7 +209,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setCc('address@example.com', 'my test address');
-        static::assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getCc());
+        $this->assertEquals(array('address_example_com@yopmail.com' => 'my test address'), $message->getCc());
     }
 
     /**
@@ -221,7 +221,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setBcc(array('address@example.com'));
-        static::assertEquals(
+        $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'address@example.com',
                 'staff@chaplean.com' => 'staff@chaplean.com'
@@ -238,7 +238,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setBcc('address@example.com');
-        static::assertEquals(
+        $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => null,
                 'staff@chaplean.com' => 'staff@chaplean.com'
@@ -255,11 +255,43 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
 
         $message->setBcc('address@example.com', 'my test address');
-        static::assertEquals(
+        $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'my test address',
                 'staff@chaplean.com' => 'staff@chaplean.com'
             ), $message->getBcc()
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testNoAmazonTags()
+    {
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $this->assertArrayNotHasKey('amazon_tags', $chapleanConfig);
+        $message = new Message($chapleanConfig);
+
+        $message->setBcc('address@example.com', 'my test address');
+        $this->assertNull($message->getHeaders()->get('X-SES-CONFIGURATION-SET'));
+        $this->assertNull($message->getHeaders()->get('X-SES-MESSAGE-TAGS'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testWithAmazonTags()
+    {
+        $chapleanConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $chapleanConfig['amazon_tags'] = array(
+            'configuration_set' => 'test',
+            'project_name' => 'test_project',
+            'env' => '[TEST]'
+        );
+        $message = new Message($chapleanConfig);
+
+        $message->setBcc('address@example.com', 'my test address');
+        $this->assertEquals('test', $message->getHeaders()->get('X-SES-CONFIGURATION-SET')->getFieldBody());
+        $this->assertEquals('project_name=test_project, environment=[TEST]', $message->getHeaders()->get('X-SES-MESSAGE-TAGS')->getFieldBody());
     }
 }

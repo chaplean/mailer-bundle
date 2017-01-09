@@ -30,6 +30,21 @@ class Message extends \Swift_Message
     {
         parent::__construct();
 
+        if (array_key_exists('amazon_tags', $chapleanMailerConfig)) {
+            $headers = $this->getHeaders();
+
+            $amazonTags = $chapleanMailerConfig['amazon_tags'];
+            $headers->addTextHeader('X-SES-CONFIGURATION-SET', $amazonTags['configuration_set']);
+            $headers->addTextHeader(
+                'X-SES-MESSAGE-TAGS',
+                sprintf(
+                    'project_name=%s, environment=%s',
+                    $amazonTags['project_name'],
+                    $amazonTags['env']
+                )
+            );
+        }
+
         $this->setFrom($chapleanMailerConfig['sender_address'], $chapleanMailerConfig['sender_name']);
 
         $this->chapleanMailerConfig = $chapleanMailerConfig;
