@@ -17,12 +17,13 @@ class MessageTest extends LogicalTestCase
 {
     /**
      * Load empty data fixture to generate the database schema even if no data are given
-     * TODO: remove this function (used cause of a bug in Unit when a project has no datafixtures)
      *
      * @return void
      */
     public static function setUpBeforeClass()
     {
+        self::$datafixturesEnabled = false;
+        parent::setUpBeforeClass();
     }
 
     /**
@@ -46,7 +47,7 @@ class MessageTest extends LogicalTestCase
         $message = new Message($chapleanConfig);
         $message->setSubject('My subject');
 
-        $this->assertEquals('[TEST]My subject', $message->getSubject());
+        $this->assertEquals('[TEST] My subject', $message->getSubject());
     }
 
     /**

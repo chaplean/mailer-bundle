@@ -26,10 +26,6 @@ framework:
 monolog:
     handlers:
         main:
-            type:         fingers_crossed
-            action_level: error
-            handler:      nested
-        nested:
             type:   stream
             path:   '%kernel.logs_dir%/%kernel.environment%.log'
             level:  info
@@ -64,7 +60,7 @@ swiftmailer:
     password:   '%mailer_password%'
     encryption: '%mailer_encryption%'
     spool:
-        type: file
+        type: memory
 
 # Chapleanmailer Configuration
 chaplean_mailer:
