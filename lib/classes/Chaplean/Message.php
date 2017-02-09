@@ -63,7 +63,7 @@ class Message extends \Swift_Message
     public function setSubject($subject)
     {
         $prefix = $this->chapleanMailerConfig['subject']['prefix'];
-        $subject = $prefix . $subject;
+        $subject = $prefix . ' ' . $subject;
 
         if (!$this->_setHeaderFieldModel('Subject', $subject)) {
             $this->getHeaders()->addTextHeader('Subject', $subject);

@@ -1,0 +1,7 @@
+services:
+    chaplean_mailer.event_listener.mail_logging:
+        class:  Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener
+        arguments: ["@logger"]
+        tags:
+          - { name: monolog.logger, channel: mailer }
+          - { name: "swiftmailer.default.plugin" }
