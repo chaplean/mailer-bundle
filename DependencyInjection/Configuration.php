@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('bcc_address')->end()
+            ->scalarNode('bounce_address')->end()
             ->scalarNode('sender_address')->isRequired()->end()
             ->scalarNode('sender_name')->isRequired()->end()
             ->arrayNode('subject')

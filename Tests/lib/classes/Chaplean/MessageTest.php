@@ -295,4 +295,31 @@ class MessageTest extends LogicalTestCase
         $this->assertEquals('test', $message->getHeaders()->get('X-SES-CONFIGURATION-SET')->getFieldBody());
         $this->assertEquals('project_name=test_project, environment=[TEST]', $message->getHeaders()->get('X-SES-MESSAGE-TAGS')->getFieldBody());
     }
+
+    /**
+     * @return void
+     */
+    public function testWithoutBounce()
+    {
+        $noBounceConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        unset($noBounceConfig['bounce_address']);
+        $noBounce = new Message($noBounceConfig);
+
+        $this->assertNull($noBounce->getReturnPath());
+        $this->assertNull($noBounce->getHeaders()->get('Return-Path'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testWithBounce()
+    {
+        $bounceConfig = $this->getContainer()->getParameter('chaplean_mailer');
+        $bounceConfig['bounce_address'] = 'bounce@address.com';
+        $bounce = new Message($bounceConfig);
+
+        $this->assertEquals('bounce@address.com', $bounce->getReturnPath());
+        $this->assertNotNull($bounce->getHeaders()->get('Return-Path'));
+        $this->assertEquals('<bounce@address.com>', $bounce->getHeaders()->get('Return-Path')->getFieldBody());
+    }
 }
