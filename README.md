@@ -32,6 +32,7 @@ Add
 ```
 chaplean_mailer:
     bcc_address: '<email_reference>'
+    bounce_address: '<email_reference>'
     sender_address: '<no_reply_email>'
     sender_name: '<sender_name>'
     subject:
