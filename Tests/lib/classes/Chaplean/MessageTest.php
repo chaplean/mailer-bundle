@@ -134,8 +134,8 @@ class MessageTest extends LogicalTestCase
             array(
                 'already_transformed@yopmail.com' => null,
                 'to_transform_example_com@yopmail.com' => null,
-                'other_to_transform_example_com@yopmail.com' => 'other_to_transform@example.com',
-                'named_to_transform_example_com@yopmail.com' => 'named address',
+                'other_to_transform_exampl@yopmail.com' => 'other_to_transform@example.com',
+                'named_to_transform_exampl@yopmail.com' => 'named address',
             ),
             $message->transformMail($addresses)
         );

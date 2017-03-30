@@ -243,7 +243,9 @@ class Message extends \Swift_Message
 
                 // If not already transformed
                 if (!in_array($addressToUpdate, $this->getExtraBccAddress(), true) && substr($addressToUpdate, -strlen('@yopmail.com')) !== '@yopmail.com'){
-                    $newRecipient = str_replace(array('.', '@'), '_', $addressToUpdate) . '@yopmail.com';
+                    $newRecipient = str_replace(array('.', '@'), '_', $addressToUpdate);
+                    $newRecipient =  substr($newRecipient, 0, 25);
+                    $newRecipient .=  '@yopmail.com';
                 }
 
                 $finalAddresses[$newRecipient] = $recipientName;
