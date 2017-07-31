@@ -1,4 +1,3 @@
-# This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
     database_host: mysql
@@ -9,8 +8,12 @@ parameters:
 
     mailer_transport: smtp
     mailer_host: 127.0.0.1
+    mailer_port: 465
     mailer_user: null
     mailer_password: null
+    mailer_encryption: null
 
     locale: fr
     secret: Secr3tTok3nForChapleanMailerBun2le
+
+    data_fixtures_namespace: false

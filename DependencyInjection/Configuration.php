@@ -23,6 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
             ->scalarNode('bcc_address')->end()
+            ->scalarNode('bounce_address')->end()
             ->scalarNode('sender_address')->isRequired()->end()
             ->scalarNode('sender_name')->isRequired()->end()
             ->arrayNode('subject')
@@ -31,7 +32,13 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('prefix')->defaultValue('')->end()
                     ->end()
                 ->end()
-                ->booleanNode('test')->defaultTrue()->end()
+            ->booleanNode('test')->defaultTrue()->end()
+            ->arrayNode('amazon_tags')
+                ->children()
+                    ->scalarNode('configuration_set')->isRequired()->end()
+                    ->scalarNode('project_name')->isRequired()->end()
+                    ->scalarNode('env')->isRequired()->end()
+                ->end()
             ->end()
         ;
 

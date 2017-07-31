@@ -5,8 +5,8 @@ namespace Chaplean\Bundle\MailerBundle\lib\classes\Chaplean;
 /**
  * Class Chaplean_Message.
  *
- * @author    Benoit - Chaplean <benoit@chaplean.com>
- * @copyright 2014 - 2015 Chaplean (http://www.chaplean.com)
+ * @author    Benoit - Chaplean <benoit@chaplean.coop>
+ * @copyright 2014 - 2015 Chaplean (http://www.chaplean.coop)
  * @since     0.1.0
  */
 class Message extends \Swift_Message
@@ -30,6 +30,26 @@ class Message extends \Swift_Message
     {
         parent::__construct();
 
+        $headers = $this->getHeaders();
+
+        if (array_key_exists('amazon_tags', $chapleanMailerConfig)) {
+            $amazonTags = $chapleanMailerConfig['amazon_tags'];
+            $headers->addTextHeader('X-SES-CONFIGURATION-SET', $amazonTags['configuration_set']);
+            $headers->addTextHeader(
+                'X-SES-MESSAGE-TAGS',
+                sprintf(
+                    'project_name=%s, environment=%s',
+                    $amazonTags['project_name'],
+                    $amazonTags['env']
+                )
+            );
+        }
+
+
+        if (isset($chapleanMailerConfig['bounce_address'])) {
+            $this->setReturnPath($chapleanMailerConfig['bounce_address']);
+        }
+
         $this->setFrom($chapleanMailerConfig['sender_address'], $chapleanMailerConfig['sender_name']);
 
         $this->chapleanMailerConfig = $chapleanMailerConfig;
@@ -48,7 +68,7 @@ class Message extends \Swift_Message
     public function setSubject($subject)
     {
         $prefix = $this->chapleanMailerConfig['subject']['prefix'];
-        $subject = $prefix . $subject;
+        $subject = $prefix . ' ' . $subject;
 
         if (!$this->_setHeaderFieldModel('Subject', $subject)) {
             $this->getHeaders()->addTextHeader('Subject', $subject);
@@ -223,7 +243,9 @@ class Message extends \Swift_Message
 
                 // If not already transformed
                 if (!in_array($addressToUpdate, $this->getExtraBccAddress(), true) && substr($addressToUpdate, -strlen('@yopmail.com')) !== '@yopmail.com'){
-                    $newRecipient = str_replace(array('.', '@'), '_', $addressToUpdate) . '@yopmail.com';
+                    $newRecipient = str_replace(array('.', '@'), '_', $addressToUpdate);
+                    $newRecipient =  substr($newRecipient, 0, 25);
+                    $newRecipient .=  '@yopmail.com';
                 }
 
                 $finalAddresses[$newRecipient] = $recipientName;
