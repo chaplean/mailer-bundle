@@ -15,3 +15,5 @@ parameters:
 
     locale: fr
     secret: Secr3tTok3nForChapleanMailerBun2le
+
+    data_fixtures_namespace: false

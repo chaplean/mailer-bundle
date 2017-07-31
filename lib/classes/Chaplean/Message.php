@@ -5,8 +5,8 @@ namespace Chaplean\Bundle\MailerBundle\lib\classes\Chaplean;
 /**
  * Class Chaplean_Message.
  *
- * @author    Benoit - Chaplean <benoit@chaplean.com>
- * @copyright 2014 - 2015 Chaplean (http://www.chaplean.com)
+ * @author    Benoit - Chaplean <benoit@chaplean.coop>
+ * @copyright 2014 - 2015 Chaplean (http://www.chaplean.coop)
  * @since     0.1.0
  */
 class Message extends \Swift_Message

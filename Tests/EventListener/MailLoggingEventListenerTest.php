@@ -10,23 +10,12 @@ use Monolog\Logger;
  * Class MailLoggingEventListenerTest.
  *
  * @package   Chaplean\Bundle\MailerBundle\EventListener
- * @author    Matthias - Chaplean <matthias@chaplean.com>
- * @copyright 2014 - 2017 Chaplean (http://www.chaplean.com)
+ * @author    Matthias - Chaplean <matthias@chaplean.coop>
+ * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
  * @since     3.0.3
  */
 class MailLoggingEventListenerTest extends LogicalTestCase
 {
-    /**
-     * Load empty data fixture to generate the database schema even if no data are given
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::$datafixturesEnabled = false;
-        parent::setUpBeforeClass();
-    }
-
     /**
      * @return void
      */

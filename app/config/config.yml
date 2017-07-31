@@ -64,9 +64,9 @@ swiftmailer:
 
 # Chapleanmailer Configuration
 chaplean_mailer:
-    bcc_address: 'staff@chaplean.com'
-    bounce_address: 'staff@chaplean.com'
-    sender_address: 'staff@chaplean.com'
+    bcc_address: 'staff@chaplean.coop'
+    bounce_address: 'staff@chaplean.coop'
+    sender_address: 'staff@chaplean.coop'
     sender_name: 'Chaplean Staff'
     subject:
         prefix: '[TEST]'

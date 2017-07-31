@@ -9,23 +9,12 @@ use Chaplean\Bundle\UnitBundle\Test\LogicalTestCase;
  * Class MessageTest.
  *
  * @package   Chaplean\Bundle\MailerBundle\Tests\lib\classes\Chaplean
- * @author    Benoit - Chaplean <benoit@chaplean.com>
- * @copyright 2014 - 2015 Chaplean (http://www.chaplean.com)
+ * @author    Benoit - Chaplean <benoit@chaplean.coop>
+ * @copyright 2014 - 2015 Chaplean (http://www.chaplean.coop)
  * @since     1.0.0
  */
 class MessageTest extends LogicalTestCase
 {
-    /**
-     * Load empty data fixture to generate the database schema even if no data are given
-     *
-     * @return void
-     */
-    public static function setUpBeforeClass()
-    {
-        self::$datafixturesEnabled = false;
-        parent::setUpBeforeClass();
-    }
-
     /**
      * @return void
      */
@@ -225,7 +214,7 @@ class MessageTest extends LogicalTestCase
         $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'address@example.com',
-                'staff@chaplean.com' => 'staff@chaplean.com'
+                'staff@chaplean.coop' => 'staff@chaplean.coop'
             ), $message->getBcc()
         );
     }
@@ -242,7 +231,7 @@ class MessageTest extends LogicalTestCase
         $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => null,
-                'staff@chaplean.com' => 'staff@chaplean.com'
+                'staff@chaplean.coop' => 'staff@chaplean.coop'
             ), $message->getBcc()
         );
     }
@@ -259,7 +248,7 @@ class MessageTest extends LogicalTestCase
         $this->assertEquals(
             array(
                 'address_example_com@yopmail.com' => 'my test address',
-                'staff@chaplean.com' => 'staff@chaplean.com'
+                'staff@chaplean.coop' => 'staff@chaplean.coop'
             ), $message->getBcc()
         );
     }

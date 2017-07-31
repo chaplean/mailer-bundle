@@ -9,8 +9,8 @@ use Swift_Events_SendListener;
 /**
  * Class MailLoggingEventListener.
  *
- * @author    Matthias - Chaplean <matthias@chaplean.com>
- * @copyright 2014 - 2017 Chaplean (http://www.chaplean.com)
+ * @author    Matthias - Chaplean <matthias@chaplean.coop>
+ * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
  * @since     3.0.3
  */
 class MailLoggingEventListener implements Swift_Events_SendListener

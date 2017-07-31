@@ -1,5 +1,5 @@
 FROM chaplean/phpunit
-MAINTAINER Tom - Chaplean <tom@chaplean.com>
+MAINTAINER Tom - Chaplean <tom@chaplean.coop>
 
 # Get SSH user key
 RUN mkdir -p /root/.ssh
