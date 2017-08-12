@@ -3,8 +3,8 @@
 namespace Chaplean\Bundle\MailerBundle\EventListener;
 
 use Chaplean\Bundle\MailerBundle\lib\classes\Chaplean\Message;
-use Chaplean\Bundle\UnitBundle\Test\LogicalTestCase;
-use Monolog\Logger;
+use PHPUnit\Framework\TestCase;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class MailLoggingEventListenerTest.
@@ -14,28 +14,107 @@ use Monolog\Logger;
  * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
  * @since     3.0.3
  */
-class MailLoggingEventListenerTest extends LogicalTestCase
+class MailLoggingEventListenerTest extends TestCase
 {
+    private $chapleanMailerConfig;
+
     /**
      * @return void
      */
-    public function testLoggingOnSendMail()
+    public function setUp()
     {
-        $this->markTestSkipped("Logger mock doen't work.");
+        parent::setUp();
 
-        $expected = 'test subject - 1';
+        $this->chapleanMailerConfig = [
+            'bcc_address'    => 'staff@chaplean.coop',
+            'bounce_address' => 'staff@chaplean.coop',
+            'sender_address' => 'staff@chaplean.coop',
+            'sender_name'    => 'Chaplean Staff',
+            'subject'        => [
+                'prefix' => '[TEST]'
+            ],
+            'test'           => 'true'
+        ];
+    }
 
-        $logger = \Mockery::mock(Logger::class);
-        $logger->makePartial();
-        $logger->shouldReceive('info')->withArgs(array('message' => $expected))->once();
-        $this->getContainer()->set('logger', $logger);
-        $this->getContainer()->set('chaplean_mailer.event_listener.mail_logging', null);
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::sendPerformed()
+     *
+     * @doesNotPerformAssertions
+     *
+     * @return void
+     */
+    public function testLoggingUnknownTransport()
+    {
+        $message = new Message($this->chapleanMailerConfig);
 
-        $mail = new Message($this->getContainer()->getParameter('chaplean_mailer'));
-        $mail->setSubject('test subject');
+        $expected = 'Mail unknown transport: ' . $message->toString();
 
-        /** @var \Swift_Mailer $sendMail */
-        $sendMail = $this->getContainer()->get('swiftmailer.mailer');
-        $sendMail->send($mail);
+        $logger = \Mockery::mock(LoggerInterface::class);
+        $logger->shouldReceive('info')
+            ->with($expected)
+            ->once();
+
+        $swiftTransportMock = \Mockery::mock(\Swift_Transport::class);
+
+        $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
+
+        $mailLoggingEventListener = new MailLoggingEventListener($logger);
+        $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
+    }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::sendPerformed()
+     *
+     * @doesNotPerformAssertions
+     *
+     * @return void
+     */
+    public function testLoggingSpoolTransport()
+    {
+        $message = new Message($this->chapleanMailerConfig);
+
+        $expected = 'Mail queued: ' . $message->toString();
+
+        $logger = \Mockery::mock(LoggerInterface::class);
+        $logger->shouldReceive('info')
+            ->with($expected)
+            ->once();
+
+        $swiftTransportMock = \Mockery::mock(\Swift_Transport_SpoolTransport::class);
+
+        $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
+
+        $mailLoggingEventListener = new MailLoggingEventListener($logger);
+        $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
+    }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener::sendPerformed()
+     *
+     * @doesNotPerformAssertions
+     *
+     * @return void
+     */
+    public function testLoggingAbstractSmtpTransport()
+    {
+        $message = new Message($this->chapleanMailerConfig);
+
+        $expected = 'Mail sent: ' . $message->toString();
+
+        $logger = \Mockery::mock(LoggerInterface::class);
+        $logger->shouldReceive('info')
+            ->with($expected)
+            ->once();
+
+        $swiftTransportMock = \Mockery::mock(\Swift_Transport_AbstractSmtpTransport::class);
+
+        $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
+
+        $mailLoggingEventListener = new MailLoggingEventListener($logger);
+        $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
     }
 }

@@ -9,16 +9,15 @@ services:
             - mysql:mysql
     mysql:
         container_name: mailer_bundle_mysql
-        image: chaplean/mysql
+        image: chaplean/mysql:mariadb10.1
         volumes:
-            - mysql_data:/var/lib/mysql
+            - mysql_data:/var/lib/mysql:rw
         restart: always
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_USER: app_user
             MYSQL_PASSWORD: app_password
             MYSQL_DATABASE: test_database
-
 networks: {}
 volumes:
     mysql_data: ~
