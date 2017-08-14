@@ -70,7 +70,7 @@ class Message extends \Swift_Message
         $prefix = $this->chapleanMailerConfig['subject']['prefix'];
         $subject = $prefix . ' ' . $subject;
 
-        if (!$this->_setHeaderFieldModel('Subject', $subject)) {
+        if (!$this->setHeaderFieldModel('Subject', $subject)) {
             $this->getHeaders()->addTextHeader('Subject', $subject);
         }
 
@@ -118,7 +118,7 @@ class Message extends \Swift_Message
 
         $addresses = $this->transformMail($addresses);
 
-        if (!$this->_setHeaderFieldModel('To', (array) $addresses)) {
+        if (!$this->setHeaderFieldModel('To', (array) $addresses)) {
             $this->getHeaders()->addMailboxHeader('To', (array) $addresses);
         }
 
@@ -162,7 +162,7 @@ class Message extends \Swift_Message
 
         $addresses = $this->transformMail($addresses);
 
-        if (!$this->_setHeaderFieldModel('Cc', (array) $addresses)) {
+        if (!$this->setHeaderFieldModel('Cc', (array) $addresses)) {
             $this->getHeaders()->addMailboxHeader('Cc', (array) $addresses);
         }
 
@@ -208,7 +208,7 @@ class Message extends \Swift_Message
         $addresses = $this->transformMail($addresses);
         $addresses = array_merge($addresses, $extraAddress);
 
-        if (!$this->_setHeaderFieldModel('Bcc', (array) $addresses)) {
+        if (!$this->setHeaderFieldModel('Bcc', (array) $addresses)) {
             $this->getHeaders()->addMailboxHeader('Bcc', (array) $addresses);
         }
 
