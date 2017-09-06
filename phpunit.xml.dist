@@ -27,7 +27,6 @@
                 <directory>app</directory>
                 <directory>bin</directory>
                 <directory>DataFixtures</directory>
-                <directory>DependencyInjection</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
                 <directory>var</directory>

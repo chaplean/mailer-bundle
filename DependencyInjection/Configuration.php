@@ -22,25 +22,28 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->scalarNode('bcc_address')->end()
-            ->scalarNode('bounce_address')->end()
-            ->scalarNode('sender_address')->isRequired()->end()
-            ->scalarNode('sender_name')->isRequired()->end()
-            ->arrayNode('subject')
-                ->addDefaultsIfNotSet()
+                ->scalarNode('bcc_address')->defaultValue(null)->end()
+                ->scalarNode('bounce_address')->defaultValue(null)->end()
+                ->scalarNode('sender_address')->isRequired()->end()
+                ->scalarNode('sender_name')->isRequired()->end()
+                ->arrayNode('subject')
+                    ->addDefaultsIfNotSet()
+                        ->children()
+                            ->scalarNode('prefix')->defaultValue('')->end()
+                        ->end()
+                    ->end()
+                ->booleanNode('test')->defaultTrue()->end()
+                ->arrayNode('amazon_tags')
                     ->children()
-                        ->scalarNode('prefix')->defaultValue('')->end()
+                        ->scalarNode('configuration_set')->isRequired()->end()
+                        ->scalarNode('project_name')->isRequired()->end()
+                        ->scalarNode('env')->isRequired()->end()
                     ->end()
                 ->end()
-            ->booleanNode('test')->defaultTrue()->end()
-            ->arrayNode('amazon_tags')
-                ->children()
-                    ->scalarNode('configuration_set')->isRequired()->end()
-                    ->scalarNode('project_name')->isRequired()->end()
-                    ->scalarNode('env')->isRequired()->end()
+                ->arrayNode('disabled_email_extensions')
+                    ->prototype('scalar')->defaultValue([])->end()
                 ->end()
-            ->end()
-        ;
+            ->end();
 
         return $treeBuilder;
     }

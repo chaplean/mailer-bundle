@@ -17,8 +17,7 @@ composer require chaplean/mailer-bundle
 
 Add
 ```
-            new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
-            new Chaplean\Bundle\MailerBundle\ChapleanMailerBundle(),
+new Chaplean\Bundle\MailerBundle\ChapleanMailerBundle(),
 ```
 
 ## 3. config.yml
