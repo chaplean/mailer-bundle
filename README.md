@@ -17,6 +17,7 @@ composer require chaplean/mailer-bundle
 
 Add
 ```
+new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
 new Chaplean\Bundle\MailerBundle\ChapleanMailerBundle(),
 ```
 
@@ -37,4 +38,5 @@ chaplean_mailer:
     subject:
         prefix: '<prefix>'
     test: false
+    disabled_email_extensions: ['<domain>'] // default empty
 ```

@@ -2,21 +2,21 @@
 
 namespace Tests\Chaplean\Bundle\MailerBundle\EventListener;
 
-use Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener;
+use Chaplean\Bundle\MailerBundle\EventListener\MailEventListener;
 use Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility;
 use Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use Psr\Log\LoggerInterface;
 
 /**
- * Class MailLoggingEventListenerTest.
+ * Class MailEventListenerTest.
  *
  * @package   Chaplean\Bundle\MailerBundle\EventListener
  * @author    Matthias - Chaplean <matthias@chaplean.coop>
  * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
  * @since     3.0.3
  */
-class MailLoggingEventListenerTest extends MockeryTestCase
+class MailEventListenerTest extends MockeryTestCase
 {
     /**
      * @var array
@@ -43,8 +43,8 @@ class MailLoggingEventListenerTest extends MockeryTestCase
     }
 
     /**
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::__construct()
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::sendPerformed()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::sendPerformed()
      *
      * @return void
      */
@@ -63,13 +63,13 @@ class MailLoggingEventListenerTest extends MockeryTestCase
 
         $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
 
-        $mailLoggingEventListener = new MailLoggingEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
+        $mailLoggingEventListener = new MailEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
         $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
     }
 
     /**
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::__construct()
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::sendPerformed()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::sendPerformed()
      *
      * @return void
      */
@@ -88,13 +88,13 @@ class MailLoggingEventListenerTest extends MockeryTestCase
 
         $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
 
-        $mailLoggingEventListener = new MailLoggingEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
+        $mailLoggingEventListener = new MailEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
         $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
     }
 
     /**
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::__construct()
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::sendPerformed()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::sendPerformed()
      *
      * @return void
      */
@@ -112,12 +112,12 @@ class MailLoggingEventListenerTest extends MockeryTestCase
         $swiftTransportMock = \Mockery::mock(\Swift_Transport_AbstractSmtpTransport::class);
         $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
 
-        $mailLoggingEventListener = new MailLoggingEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
+        $mailLoggingEventListener = new MailEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
         $mailLoggingEventListener->sendPerformed($swiftEventSendEvent);
     }
 
     /**
-     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener::beforeSendPerformed()
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::beforeSendPerformed()
      *
      * @return void
      */
@@ -135,7 +135,7 @@ class MailLoggingEventListenerTest extends MockeryTestCase
         $swiftTransportMock = \Mockery::mock(\Swift_Transport_AbstractSmtpTransport::class);
         $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
 
-        $mailLoggingEventListener = new MailLoggingEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
+        $mailLoggingEventListener = new MailEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
 
         $mailLoggingEventListener->beforeSendPerformed($swiftEventSendEvent);
     }

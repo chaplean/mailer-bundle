@@ -9,13 +9,13 @@ use Swift_Events_SendEvent;
 use Swift_Events_SendListener;
 
 /**
- * Class MailLoggingEventListener.
+ * Class MailEventListener.
  *
  * @author    Matthias - Chaplean <matthias@chaplean.coop>
  * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
  * @since     3.0.3
  */
-class MailLoggingEventListener implements Swift_Events_SendListener
+class MailEventListener implements Swift_Events_SendListener
 {
     /**
      * @var EmailConfigurationUtility
