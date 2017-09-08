@@ -119,22 +119,29 @@ class MessageConfigurationUtility
 
         $finalAddresses = array();
 
-        $addresses = $message->getTo();
-        foreach ($addresses as $recipient => $recipientName) {
-            $addressToUpdate = is_string($recipient) ? $recipient : $recipientName;
-            $newRecipient = $addressToUpdate;
+        foreach (['To', 'Cc'] as $type) {
+            $getter = 'get' . $type;
+            $setter = 'set' . $type;
+            $addresses = $message->$getter();
 
-            // If not already transformed
-            if (substr($addressToUpdate, -strlen(self::EXTENSION_YOPMAIL)) !== self::EXTENSION_YOPMAIL) {
-                $newRecipient = str_replace(['.', '@'], '_', $addressToUpdate);
-                $newRecipient = substr($newRecipient, 0, 25);
-                $newRecipient .= '@yopmail.com';
+            foreach ($addresses as $recipient => $recipientName) {
+                $addressToUpdate = is_string($recipient) ? $recipient : $recipientName;
+                $newRecipient = $addressToUpdate;
+
+                // If not already transformed
+                if (substr($addressToUpdate, -strlen(self::EXTENSION_YOPMAIL)) !== self::EXTENSION_YOPMAIL) {
+                    $newRecipient = str_replace(['.', '@'], '_', $addressToUpdate);
+                    $newRecipient = substr($newRecipient, 0, 25);
+                    $newRecipient .= '@yopmail.com';
+                }
+
+                $finalAddresses[$newRecipient] = $recipientName;
             }
 
-            $finalAddresses[$newRecipient] = $recipientName;
+            $message->$setter($finalAddresses);
         }
 
-        return $message->setTo($finalAddresses);
+        return $message;
     }
 
     /**

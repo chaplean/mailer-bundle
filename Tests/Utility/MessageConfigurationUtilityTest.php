@@ -200,6 +200,13 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
                 'bar@foo.com' => 'bar@foo.com'
             ]
         );
+        $message->setCc(
+            [
+                // email      => name
+                'foo@bar.com' => 'foo@bar.com',
+                'bar@foo.com' => 'bar@foo.com'
+            ]
+        );
 
         $messageConfigurationUtility->applyYopmail($message);
 
@@ -209,6 +216,14 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
                 'bar_foo_com@yopmail.com' => 'bar@foo.com'
             ],
             $message->getTo()
+        );
+
+        $this->assertEquals(
+            [
+                'foo_bar_com@yopmail.com' => 'foo@bar.com',
+                'bar_foo_com@yopmail.com' => 'bar@foo.com'
+            ],
+            $message->getCc()
         );
     }
 
