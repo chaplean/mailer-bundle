@@ -162,4 +162,28 @@ class MailEventListenerTest extends MockeryTestCase
 
         $mailLoggingEventListener->beforeSendPerformed($swiftEventSendEvent);
     }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\EventListener\MailEventListener::beforeSendPerformed()
+     *
+     * @return void
+     */
+    public function testBeforeSendPerformedCcNotEmpty()
+    {
+        $message = new \Swift_Message();
+        $message->setCc('example@domain.org');
+
+        $logger = \Mockery::mock(LoggerInterface::class);
+        $messageConfigurationUtility = \Mockery::mock(MessageConfigurationUtility::class);
+        $messageConfigurationUtility->shouldReceive('applyAll')->once();
+        $emailConfigurationUtility = \Mockery::mock(EmailConfigurationUtility::class);
+        $emailConfigurationUtility->shouldReceive('removeEmailDisabled')->once()->andReturn(['example@domain.org']);
+
+        $swiftTransportMock = \Mockery::mock(\Swift_Transport_AbstractSmtpTransport::class);
+        $swiftEventSendEvent = new \Swift_Events_SendEvent($swiftTransportMock, $message);
+
+        $mailLoggingEventListener = new MailEventListener($logger, $messageConfigurationUtility, $emailConfigurationUtility);
+
+        $mailLoggingEventListener->beforeSendPerformed($swiftEventSendEvent);
+    }
 }

@@ -62,7 +62,7 @@ class MailEventListener implements Swift_Events_SendListener
 
             $addresses = $message->$getter();
             if (!is_array($addresses)) {
-                break;
+                continue;
             }
 
             $message->$setter($this->emailConfigurationUtility->removeEmailDisabled($addresses));
