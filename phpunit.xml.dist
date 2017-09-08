@@ -5,9 +5,9 @@
          xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.3/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
-         forceCoversAnnotation="true"
-         failOnWarning="true"
          failOnRisky="true"
+         failOnWarning="true"
+         forceCoversAnnotation="true"
 >
     <php>
         <ini name="error_reporting" value="-1"/>
@@ -24,9 +24,8 @@
             <directory>.</directory>
 
             <exclude>
-                <directory>app</directory>
                 <directory>bin</directory>
-                <directory>DataFixtures</directory>
+                <directory>DataFixtures/Liip</directory>
                 <directory>Resources</directory>
                 <directory>Tests</directory>
                 <directory>var</directory>
