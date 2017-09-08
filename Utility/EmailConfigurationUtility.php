@@ -8,7 +8,7 @@ namespace Chaplean\Bundle\MailerBundle\Utility;
  * @package   Chaplean\Bundle\MailerBundle\Utility
  * @author    Valentin - Chaplean <valentin@chaplean.coop>
  * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
- * @since     X.Y.Z
+ * @since     4.0.0
  */
 class EmailConfigurationUtility
 {
@@ -28,6 +28,8 @@ class EmailConfigurationUtility
     }
 
     /**
+     * Remove addresses which the domain is in 'chaplean_mailer.disabled_email_extensions'
+     *
      * @param array $addresses
      *
      * @return array
@@ -36,7 +38,7 @@ class EmailConfigurationUtility
     {
         $newAddresses = [];
         foreach ($addresses as $email => $name) {
-            $domain = substr(strrchr($email, '@'), 1);
+            $domain = $this->extractDomain($email);
 
             if (!in_array($domain, $this->config['disabled_email_extensions'], true)) {
                 $newAddresses[$email] = $name;
@@ -44,5 +46,17 @@ class EmailConfigurationUtility
         }
 
         return $newAddresses;
+    }
+
+    /**
+     * Extract domain of email (very simply!)
+     *
+     * @param string $email
+     *
+     * @return string
+     */
+    public function extractDomain($email)
+    {
+        return substr(strrchr($email, '@'), 1);
     }
 }

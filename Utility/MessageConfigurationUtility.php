@@ -8,7 +8,7 @@ namespace Chaplean\Bundle\MailerBundle\Utility;
  * @package   Tests\Chaplean\Bundle\MailerBundle\Utility
  * @author    Valentin - Chaplean <valentin@chaplean.coop>
  * @copyright 2014 - 2017 Chaplean (http://www.chaplean.coop)
- * @since     X.Y.Z
+ * @since     4.0.0
  */
 class MessageConfigurationUtility
 {

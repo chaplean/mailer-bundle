@@ -1,6 +1,6 @@
 services:
     chaplean_mailer.event_listener.mail_logging:
-        class:  Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener
+        class:  Chaplean\Bundle\MailerBundle\EventListener\MailEventListener
         arguments: ['@logger', '@chaplean_mailer.utility.message_configuration', '@chaplean_mailer.utility.email_configuration']
         tags:
           - { name: monolog.logger, channel: mailer }

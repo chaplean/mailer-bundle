@@ -2,9 +2,10 @@
 
 namespace Tests\Chaplean\Bundle\MailerBundle\DependencyInjection;
 
-use Chaplean\Bundle\MailerBundle\DependencyInjection\Configuration;
+use Chaplean\Bundle\MailerBundle\DependencyInjection\ChapleanMailerExtension;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Class ConfigurationTest.
@@ -23,55 +24,53 @@ class ConfigurationTest extends TestCase
      */
     public function testGetConfigTreeBuilderFullyInformed()
     {
-        $config = new Configuration();
+        $extension = new ChapleanMailerExtension();
+        $containerBundler = new ContainerBuilder();
 
-        $configTree = $config->getConfigTreeBuilder()->buildTree();
-
-        $normalized = $configTree->normalize(
-            [
-                'bcc_address'               => null,
-                'bounce_address'            => null,
-                'sender_address'            => null,
-                'sender_name'               => null,
-                'subject'                   => [
-                    'prefix' => null,
-                ],
-                'test'                      => false,
-                'amazon_tags'               => [
-                    'configuration_set' => null,
-                    'project_name'      => null,
-                    'env'               => null,
-                ],
-                'disabled_email_extensions' => [
-                    'foo.com',
-                    'bar.com',
-                ]
-            ]
-        );
-        $finalized = $configTree->finalize($normalized);
-
-        $this->assertEquals(
-            [
-                'bcc_address'               => null,
-                'bounce_address'            => null,
-                'sender_address'            => null,
-                'sender_name'               => null,
-                'subject'                   => [
-                    'prefix' => null,
-                ],
-                'test'                      => false,
-                'amazon_tags'               => [
-                    'configuration_set' => null,
-                    'project_name'      => null,
-                    'env'               => null,
-                ],
-                'disabled_email_extensions' => [
-                    'foo.com',
-                    'bar.com',
-                ]
+        $extension->load([[
+            'bcc_address'               => null,
+            'bounce_address'            => null,
+            'sender_address'            => null,
+            'sender_name'               => null,
+            'subject'                   => [
+                'prefix' => null,
             ],
-            $finalized
-        );
+            'test'                      => false,
+            'amazon_tags'               => [
+                'configuration_set' => null,
+                'project_name'      => null,
+                'env'               => null,
+            ],
+            'disabled_email_extensions' => [
+                'foo.com',
+                'bar.com',
+            ]
+        ]], $containerBundler);
+
+        $this->assertTrue($containerBundler->hasDefinition('chaplean_mailer.event_listener.mail_logging'));
+        $this->assertTrue($containerBundler->hasDefinition('chaplean_mailer.utility.email_configuration'));
+        $this->assertTrue($containerBundler->hasDefinition('chaplean_mailer.utility.message_configuration'));
+
+        $this->assertTrue($containerBundler->hasParameter('chaplean_mailer'));
+        $this->assertEquals([
+            'bcc_address'               => null,
+            'bounce_address'            => null,
+            'sender_address'            => null,
+            'sender_name'               => null,
+            'subject'                   => [
+                'prefix' => null,
+            ],
+            'test'                      => false,
+            'amazon_tags'               => [
+                'configuration_set' => null,
+                'project_name'      => null,
+                'env'               => null,
+            ],
+            'disabled_email_extensions' => [
+                'foo.com',
+                'bar.com',
+            ]
+        ], $containerBundler->getParameter('chaplean_mailer'));
     }
 
     /**
@@ -81,73 +80,56 @@ class ConfigurationTest extends TestCase
      */
     public function testGetConfigTreeBuilderDefaultValue()
     {
-        $config = new Configuration();
+        $extension = new ChapleanMailerExtension();
+        $containerBundler = new ContainerBuilder();
 
-        $configTree = $config->getConfigTreeBuilder()->buildTree();
-
-        $normalized = $configTree->normalize(
+        $extension->load(
             [
-                'bcc_address'    => null,
-                'bounce_address' => null,
-                'sender_address' => null,
-                'sender_name'    => null,
-                'amazon_tags'    => [
-                    'configuration_set' => null,
-                    'project_name'      => null,
-                    'env'               => null,
+                [
+                    'bcc_address'    => null,
+                    'bounce_address' => null,
+                    'sender_address' => null,
+                    'sender_name'    => null,
+                    'amazon_tags'    => [
+                        'configuration_set' => null,
+                        'project_name'      => null,
+                        'env'               => null,
+                    ]
                 ]
-            ]
-        );
-        $finalized = $configTree->finalize($normalized);
-
-        $this->assertEquals(
-            [
-                'bcc_address'               => null,
-                'bounce_address'            => null,
-                'sender_address'            => null,
-                'sender_name'               => null,
-                'subject'                   => [
-                    'prefix' => '',
-                ],
-                'test'                      => true,
-                'amazon_tags'               => [
-                    'configuration_set' => null,
-                    'project_name'      => null,
-                    'env'               => null,
-                ],
-                'disabled_email_extensions' => []
             ],
-            $finalized
+            $containerBundler
         );
+
+        $this->assertEquals('', $containerBundler->getParameter('chaplean_mailer.subject.prefix'));
+        $this->assertTrue($containerBundler->getParameter('chaplean_mailer.test'));
+        $this->assertEquals([], $containerBundler->getParameter('chaplean_mailer.disabled_email_extensions'));
     }
 
     /**
-     * @dataProvider requiredNodeConfuguration
+     * @dataProvider requiredNodeConfiguration
      *
      * @covers       \Chaplean\Bundle\MailerBundle\DependencyInjection\Configuration::getConfigTreeBuilder()
      *
-     * @param array  $inputConfig
+     * @param array  $config
      * @param string $exceptionMessage
      *
      * @return void
      */
-    public function testtestGetConfigTreeBuilderRequiredNode(array $inputConfig, $exceptionMessage)
+    public function testGetConfigTreeBuilderRequiredNode(array $config, $exceptionMessage)
     {
         $this->expectException(InvalidConfigurationException::class);
         $this->expectExceptionMessage($exceptionMessage);
 
-        $config = new Configuration();
+        $extension = new ChapleanMailerExtension();
+        $containerBundler = new ContainerBuilder();
 
-        $configTree = $config->getConfigTreeBuilder()->buildTree();
-
-        $normalized = $configTree->normalize($inputConfig);
-        $configTree->finalize($normalized);
+        $extension->load([$config], $containerBundler);
     }
 
     /**
      * @return array
      */
-    public function requiredNodeConfuguration()
+    public function requiredNodeConfiguration()
     {
         return [
             'sender_address'    => [

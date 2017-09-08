@@ -44,4 +44,19 @@ class EmailConfigurationUtilityTest extends TestCase
 
         $this->assertEquals(['foo@bar.com' => null], $emailConfigurationUtility->removeEmailDisabled(['foo@bar.com' => null]));
     }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::extractDomain
+     *
+     * @return void
+     */
+    public function testExtractDomain()
+    {
+        $emailConfigurationUtility = new EmailConfigurationUtility([]);
+
+        $this->assertEquals('bar.com', $emailConfigurationUtility->extractDomain('foo@bar.com'));
+        $this->assertEquals('', $emailConfigurationUtility->extractDomain('bar.com'));
+        $this->assertEquals('der', $emailConfigurationUtility->extractDomain('foo@tr-dz@der'));
+    }
 }
