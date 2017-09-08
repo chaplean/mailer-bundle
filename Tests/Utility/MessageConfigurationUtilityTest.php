@@ -182,6 +182,7 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
     /**
      * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::__construct
      * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::applyYopmail()
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::applyYopmailOn()
      *
      * @return void
      */
@@ -224,6 +225,39 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
                 'bar_foo_com@yopmail.com' => 'bar@foo.com'
             ],
             $message->getCc()
+        );
+    }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::__construct
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::applyYopmail()
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility::applyYopmailOn()
+     *
+     * @return void
+     */
+    public function testApplyYopmailWithoutCc()
+    {
+        $messageConfigurationUtility = new MessageConfigurationUtility([
+            'bcc_address' => null,
+            'test'        => true
+        ]);
+
+        $message = new \Swift_Message('Welcome undefined');
+        $message->setTo(
+            [
+                // email      => name
+                'foo@bar.com' => 'foo@bar.com',
+                'bar@foo.com' => 'bar@foo.com'
+            ]
+        );
+        $messageConfigurationUtility->applyYopmail($message);
+
+        $this->assertEquals(
+            [
+                'foo_bar_com@yopmail.com' => 'foo@bar.com',
+                'bar_foo_com@yopmail.com' => 'bar@foo.com'
+            ],
+            $message->getTo()
         );
     }
 

@@ -117,31 +117,47 @@ class MessageConfigurationUtility
             return $message;
         }
 
-        $finalAddresses = array();
-
-        foreach (['To', 'Cc'] as $type) {
-            $getter = 'get' . $type;
-            $setter = 'set' . $type;
-            $addresses = $message->$getter();
-
-            foreach ($addresses as $recipient => $recipientName) {
-                $addressToUpdate = is_string($recipient) ? $recipient : $recipientName;
-                $newRecipient = $addressToUpdate;
-
-                // If not already transformed
-                if (substr($addressToUpdate, -strlen(self::EXTENSION_YOPMAIL)) !== self::EXTENSION_YOPMAIL) {
-                    $newRecipient = str_replace(['.', '@'], '_', $addressToUpdate);
-                    $newRecipient = substr($newRecipient, 0, 25);
-                    $newRecipient .= '@yopmail.com';
-                }
-
-                $finalAddresses[$newRecipient] = $recipientName;
-            }
-
-            $message->$setter($finalAddresses);
-        }
+        $message = $this->applyYopmailOn('To', $message);
+        $message = $this->applyYopmailOn('Cc', $message);
 
         return $message;
+    }
+
+    /**
+     * Yopmailize addresses by type (ex: To, Cc, Bcc, From)
+     *
+     * @param string         $type
+     * @param \Swift_Message $message
+     *
+     * @return \Swift_Message
+     */
+    private function applyYopmailOn($type, \Swift_Message $message)
+    {
+        $getter = 'get' . $type;
+        $addresses = $message->$getter();
+
+        if (!is_array($addresses)) {
+            return $message;
+        }
+
+        $finalAddresses = [];
+        foreach ($addresses as $recipient => $recipientName) {
+            $addressToUpdate = is_string($recipient) ? $recipient : $recipientName;
+            $newRecipient = $addressToUpdate;
+
+            // If not already transformed
+            if (substr($addressToUpdate, -strlen(self::EXTENSION_YOPMAIL)) !== self::EXTENSION_YOPMAIL) {
+                $newRecipient = str_replace(['.', '@'], '_', $addressToUpdate);
+                $newRecipient = substr($newRecipient, 0, 25);
+                $newRecipient .= '@yopmail.com';
+            }
+
+            $finalAddresses[$newRecipient] = $recipientName;
+        }
+
+        $setter = 'set' . $type;
+
+        return $message->$setter($finalAddresses);
     }
 
     /**
