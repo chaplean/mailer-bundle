@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a12fdf01b61e046f0d4505980cb157fa",
+    "content-hash": "5304ab85c9a4365dcbd13dac309e84ec",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -980,16 +980,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.4.0",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
-                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
+                "reference": "7c8fae0ac1d216eb54349e6a8baa57d515fe8803",
                 "shasum": ""
             },
             "require": {
@@ -1001,7 +1001,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4-dev"
+                    "dev-master": "1.5-dev"
                 }
             },
             "autoload": {
@@ -1035,7 +1035,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-06-09T14:24:12+00:00"
+            "time": "2017-06-14T15:44:48+00:00"
         },
         {
             "name": "symfony/swiftmailer-bundle",
@@ -1155,19 +1155,21 @@
     "packages-dev": [
         {
             "name": "chaplean/codeship-scripts",
-            "version": "v1.0.0",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chaplean/codeship-scripts.git",
-                "reference": "f08d55ee5353c528259a115d26c188edeebe15ab"
+                "reference": "ee22c6752ba5dccd288eaf5429caccaaa7556fa7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chaplean/codeship-scripts/zipball/f08d55ee5353c528259a115d26c188edeebe15ab",
-                "reference": "f08d55ee5353c528259a115d26c188edeebe15ab",
+                "url": "https://api.github.com/repos/chaplean/codeship-scripts/zipball/ee22c6752ba5dccd288eaf5429caccaaa7556fa7",
+                "reference": "ee22c6752ba5dccd288eaf5429caccaaa7556fa7",
                 "shasum": ""
             },
             "bin": [
+                "bin/deploy.sh",
+                "bin/deploy-htaccess.sh",
                 "bin/phpunit.sh",
                 "bin/services-waiting.sh"
             ],
@@ -1183,7 +1185,7 @@
                 }
             ],
             "description": "Codeship scripts to automatically install in your bin directory",
-            "time": "2017-08-11T10:07:06+00:00"
+            "time": "2017-08-22T13:58:13+00:00"
         },
         {
             "name": "chaplean/coding-standard",
@@ -1513,12 +1515,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "b99c29ccf4dbbd41eafce4523d2412d930d393ed"
+                "reference": "d1d330595a113fb2ed40bed22411af2327762f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/b99c29ccf4dbbd41eafce4523d2412d930d393ed",
-                "reference": "b99c29ccf4dbbd41eafce4523d2412d930d393ed",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/d1d330595a113fb2ed40bed22411af2327762f8d",
+                "reference": "d1d330595a113fb2ed40bed22411af2327762f8d",
                 "shasum": ""
             },
             "require": {
@@ -1570,7 +1572,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2017-08-07 09:49:04"
+            "time": "2017-08-22T07:19:24+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2128,16 +2130,16 @@
         },
         {
             "name": "phpunit/php-token-stream",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-token-stream.git",
-                "reference": "ecb0b2cdaa0add708fe6f329ef65ae0c5225130b"
+                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/ecb0b2cdaa0add708fe6f329ef65ae0c5225130b",
-                "reference": "ecb0b2cdaa0add708fe6f329ef65ae0c5225130b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-token-stream/zipball/9a02332089ac48e704c70f6cefed30c224e3c0b0",
+                "reference": "9a02332089ac48e704c70f6cefed30c224e3c0b0",
                 "shasum": ""
             },
             "require": {
@@ -2173,7 +2175,7 @@
             "keywords": [
                 "tokenizer"
             ],
-            "time": "2017-08-03T14:17:41+00:00"
+            "time": "2017-08-20T05:47:52+00:00"
         },
         {
             "name": "phpunit/phpunit",

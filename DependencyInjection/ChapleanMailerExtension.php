@@ -39,7 +39,7 @@ class ChapleanMailerExtension extends Extension
      *
      * @return void
      */
-    public function setParameters($container, $name, $config)
+    public function setParameters(ContainerBuilder $container, $name, array $config)
     {
         foreach ($config as $key => $parameter) {
             $container->setParameter($name . '.' . $key, $parameter);

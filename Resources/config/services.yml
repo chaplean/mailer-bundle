@@ -1,7 +1,15 @@
 services:
     chaplean_mailer.event_listener.mail_logging:
-        class:  Chaplean\Bundle\MailerBundle\EventListener\MailLoggingEventListener
-        arguments: ["@logger"]
+        class:  Chaplean\Bundle\MailerBundle\EventListener\MailEventListener
+        arguments: ['@logger', '@chaplean_mailer.utility.message_configuration', '@chaplean_mailer.utility.email_configuration']
         tags:
           - { name: monolog.logger, channel: mailer }
-          - { name: "swiftmailer.default.plugin" }
+          - { name: 'swiftmailer.default.plugin' }
+
+    chaplean_mailer.utility.message_configuration:
+        class: Chaplean\Bundle\MailerBundle\Utility\MessageConfigurationUtility
+        arguments: ['%chaplean_mailer%']
+
+    chaplean_mailer.utility.email_configuration:
+        class: Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility
+        arguments: ['%chaplean_mailer%']
