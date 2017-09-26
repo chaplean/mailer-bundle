@@ -49,6 +49,16 @@ class EmailConfigurationUtility
     }
 
     /**
+     * @param string $email
+     *
+     * @return boolean
+     */
+    public function isDisabledEmail($email)
+    {
+        return empty($this->removeEmailDisabled([$email => $email]));
+    }
+
+    /**
      * Extract domain of email (very simply!)
      *
      * @param string $email
