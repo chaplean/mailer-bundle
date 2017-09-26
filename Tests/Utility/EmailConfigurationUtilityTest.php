@@ -47,6 +47,36 @@ class EmailConfigurationUtilityTest extends TestCase
 
     /**
      * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::isDisabledEmail()
+     *
+     * @return void
+     */
+    public function testIsDisabledEmailWithDisabledEmail()
+    {
+        $emailConfigurationUtility = new EmailConfigurationUtility([
+            'disabled_email_extensions' => ['bar.com']
+        ]);
+
+        $this->assertEquals(true, $emailConfigurationUtility->isDisabledEmail('foo@bar.com'));
+    }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::__construct()
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::isDisabledEmail()
+     *
+     * @return void
+     */
+    public function testIsDisabledEmailWithEnabledEmail()
+    {
+        $emailConfigurationUtility = new EmailConfigurationUtility([
+            'disabled_email_extensions' => ['foo.com']
+        ]);
+
+        $this->assertEquals(false, $emailConfigurationUtility->isDisabledEmail('foo@bar.com'));
+    }
+
+    /**
+     * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::__construct()
      * @covers \Chaplean\Bundle\MailerBundle\Utility\EmailConfigurationUtility::extractDomain
      *
      * @return void
