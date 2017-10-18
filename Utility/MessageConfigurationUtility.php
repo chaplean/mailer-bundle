@@ -42,15 +42,19 @@ class MessageConfigurationUtility
 
         $amazonTags = $this->config['amazon_tags'];
         $headers = $message->getHeaders();
-        $headers->addTextHeader('X-SES-CONFIGURATION-SET', $amazonTags['configuration_set']);
-        $headers->addTextHeader(
-            'X-SES-MESSAGE-TAGS',
-            sprintf(
-                'project_name=%s, environment=%s',
-                $amazonTags['project_name'],
-                $amazonTags['env']
-            )
-        );
+        if ($headers->get('X-SES-CONFIGURATION-SET') === null) {
+            $headers->addTextHeader('X-SES-CONFIGURATION-SET', $amazonTags['configuration_set']);
+        }
+        if ($headers->get('X-SES-MESSAGE-TAGS') === null) {
+            $headers->addTextHeader(
+                'X-SES-MESSAGE-TAGS',
+                sprintf(
+                    'project_name=%s, environment=%s',
+                    $amazonTags['project_name'],
+                    $amazonTags['env']
+                )
+            );
+        }
 
         return $message;
     }
@@ -98,7 +102,12 @@ class MessageConfigurationUtility
      */
     public function applySubjectPrefix(\Swift_Message $message)
     {
+        $subject = $message->getSubject();
         $prefix = $this->config['subject']['prefix'];
+        if (strpos($subject, $prefix) === 0) {
+            return $message;
+        }
+
         $subject = $prefix . ' ' . $message->getSubject();
 
         return $message->setSubject($subject);
@@ -161,6 +170,9 @@ class MessageConfigurationUtility
     }
 
     /**
+     * Warning can be called multiple times per message!
+     * see https://github.com/swiftmailer/swiftmailer/issues/139
+     *
      * @param \Swift_Message $message
      *
      * @return \Swift_Message
