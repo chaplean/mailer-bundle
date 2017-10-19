@@ -27,6 +27,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
         $message = new \Swift_Message();
         $headers = $message->getHeaders();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyAmazonTags($message);
         $messageConfigurationUtility->applyAmazonTags($message);
 
         $this->assertNull($headers->get('X-SES-CONFIGURATION-SET'));
@@ -52,10 +54,15 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
         $message = new \Swift_Message();
         $headers = $message->getHeaders();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyAmazonTags($message);
         $messageConfigurationUtility->applyAmazonTags($message);
 
         $this->assertEquals("X-SES-CONFIGURATION-SET: A\r\n", $headers->get('X-SES-CONFIGURATION-SET')->toString());
         $this->assertEquals("X-SES-MESSAGE-TAGS: project_name=B, environment=C\r\n", $headers->get('X-SES-MESSAGE-TAGS')->toString());
+
+        $this->assertCount(1, $headers->getAll('X-SES-CONFIGURATION-SET'));
+        $this->assertCount(1, $headers->getAll('X-SES-MESSAGE-TAGS'));
     }
 
     /**
@@ -72,6 +79,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
 
         $message = new \Swift_Message();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyBccAddress($message);
         $messageConfigurationUtility->applyBccAddress($message);
 
         $this->assertEquals(['foo@bar.com' => null], $message->getBcc());
@@ -91,6 +100,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
 
         $message = new \Swift_Message();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyBccAddress($message);
         $messageConfigurationUtility->applyBccAddress($message);
 
         $this->assertEmpty($message->getBcc());
@@ -111,6 +122,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
         $message = new \Swift_Message();
         $headers = $message->getHeaders();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyBounceAddress($message);
         $messageConfigurationUtility->applyBounceAddress($message);
 
         $this->assertEquals("Return-Path: <foo@bar.com>\r\n", $headers->get('Return-Path')->toString());
@@ -131,6 +144,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
         $message = new \Swift_Message();
         $headers = $message->getHeaders();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyBounceAddress($message);
         $messageConfigurationUtility->applyBounceAddress($message);
 
         $this->assertEquals("Return-Path: \r\n", $headers->get('Return-Path')->toString());
@@ -153,6 +168,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
 
         $message = new \Swift_Message();
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyFrom($message);
         $messageConfigurationUtility->applyFrom($message);
 
         $this->assertEquals(['foo@bar.com' => 'God'], $message->getFrom());
@@ -174,6 +191,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
 
         $message = new \Swift_Message('Welcome undefined');
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applySubjectPrefix($message);
         $messageConfigurationUtility->applySubjectPrefix($message);
 
         $this->assertEquals('[FOO] Welcome undefined', $message->getSubject());
@@ -209,6 +228,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
             ]
         );
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyYopmail($message);
         $messageConfigurationUtility->applyYopmail($message);
 
         $this->assertEquals(
@@ -250,6 +271,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
                 'bar@foo.com' => 'bar@foo.com'
             ]
         );
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyYopmail($message);
         $messageConfigurationUtility->applyYopmail($message);
 
         $this->assertEquals(
@@ -283,6 +306,8 @@ class MessageConfigurationUtilityTest extends MockeryTestCase
             ]
         );
 
+        // Called twice to simulate the bug https://github.com/swiftmailer/swiftmailer/issues/139
+        $messageConfigurationUtility->applyYopmail($message);
         $messageConfigurationUtility->applyYopmail($message);
 
         $this->assertEquals(
