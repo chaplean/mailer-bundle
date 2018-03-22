@@ -1,4 +1,8 @@
 services:
+    _defaults:
+        autowire: true
+        public: true
+
     chaplean_mailer.event_listener.mail_logging:
         class:  Chaplean\Bundle\MailerBundle\EventListener\MailEventListener
         arguments: ['@logger', '@chaplean_mailer.utility.message_configuration', '@chaplean_mailer.utility.email_configuration']
