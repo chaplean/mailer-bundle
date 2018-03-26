@@ -22,20 +22,20 @@
     ],
     "require": {
         "php": ">=7.0.8",
-        "symfony/config": "^2.8 || ^3.0 || ^4.0",
-        "symfony/console": "^2.8 || ^3.0 || ^4.0",
-        "symfony/dependency-injection": "^2.7 || ^3.0 || ^4.0",
-        "symfony/monolog-bundle": "~2.4 || ~3.0 || ^4.0",
+        "symfony/config": "^3.0 || ^4.0",
+        "symfony/console": "^3.0 || ^4.0",
+        "symfony/dependency-injection": "^3.0 || ^4.0",
+        "symfony/monolog-bundle": "~3.0 || ^4.0",
         "symfony/swiftmailer-bundle": "~3.0",
-        "symfony/yaml": "^2.8 || ^3.0 || ^4.0"
+        "symfony/yaml": "^3.0 || ^4.0"
     },
     "require-dev": {
         "chaplean/codeship-scripts": "^1.0",
         "chaplean/coding-standard": "^1.1",
         "mockery/mockery": "dev-master",
         "phpunit/phpunit": "^7.0",
-        "symfony/http-kernel": "^2.8 || ^3.0 || ^4.0",
-        "symfony/var-dumper": "^2.8 || ^3.0 || ^4.0"
+        "symfony/http-kernel": "^3.0 || ^4.0",
+        "symfony/var-dumper": "^3.0 || ^4.0"
     },
     "config": {
         "bin-dir": "bin"
